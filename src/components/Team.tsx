@@ -48,9 +48,9 @@ const team: TeamMember[] = [
     title: "Research Associate",
     education: "B.S.",
     interests:
-      "Olivia Petrick is a Research Associate in the Khurshid Lab at Sanford Research. She contributes to ongoing projects investigating alternative splicing mechanisms in cancer and supports the lab's experimental and computational workflows.",
+      "I am interested in cancer and genetics, specifically protein interactions and gene pathways such as Hippo that lead to tissue overgrowth. Outside of the lab, I like to run, hike, read, and bake, along with spending time with my friends and family, usually at football, hockey, or baseball games.",
     email: "olivia.petrick@sanfordhealth.org",
-    photo: "",
+    photo: "/images/olivia.png",
   },
 ];
 
