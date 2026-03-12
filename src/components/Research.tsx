@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { BarChart3, FlaskConical, Atom } from "lucide-react";
-import { motion } from "framer-motion";
 import AnimateIn from "./AnimateIn";
 import MoleculeAnimation from "./MoleculeAnimation";
+import SplicingDiagram from "./SplicingDiagram";
 
 const researchAreas = [
   {
@@ -79,30 +79,13 @@ export default function Research() {
           </div>
         </AnimateIn>
 
-        {/* Animated splicing diagram between header and cards */}
+        {/* Interactive splicing diagram */}
         <AnimateIn delay={0.2}>
-          <div className="mt-12 mb-4 flex items-center gap-4">
-            <div className="h-px flex-1 bg-gradient-to-r from-accent/20 via-teal/20 to-transparent" />
-            <div className="flex items-center gap-2">
-              {["A", "U", "G", "C"].map((base, i) => (
-                <motion.span
-                  key={base}
-                  className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white ${
-                    ["bg-violet-500", "bg-teal", "bg-amber-500", "bg-red-500"][i]
-                  }`}
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.3,
-                  }}
-                >
-                  {base}
-                </motion.span>
-              ))}
-            </div>
-            <div className="h-px flex-1 bg-gradient-to-l from-accent/20 via-teal/20 to-transparent" />
+          <div className="mt-12 mb-4">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent/60">
+              Interactive — Alternative Splicing
+            </p>
+            <SplicingDiagram />
           </div>
         </AnimateIn>
 

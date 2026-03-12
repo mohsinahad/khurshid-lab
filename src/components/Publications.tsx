@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { ExternalLink, BookOpen } from "lucide-react";
+import { ExternalLink, BookOpen, Search, X } from "lucide-react";
 import AnimateIn from "./AnimateIn";
 
 interface Publication {
@@ -114,11 +115,29 @@ const publications: Publication[] = [
   },
 ];
 
-const years = [...new Set(publications.map((p) => p.year))].sort(
+const ALL_YEARS = [...new Set(publications.map((p) => p.year))].sort(
   (a, b) => b - a
 );
 
 export default function Publications() {
+  const [query, setQuery] = useState("");
+  const [activeYear, setActiveYear] = useState<number | null>(null);
+
+  const q = query.toLowerCase();
+  const filtered = publications.filter((p) => {
+    const matchesYear = activeYear === null || p.year === activeYear;
+    const matchesQuery =
+      q === "" ||
+      p.title.toLowerCase().includes(q) ||
+      p.authors.toLowerCase().includes(q) ||
+      p.journal.toLowerCase().includes(q);
+    return matchesYear && matchesQuery;
+  });
+
+  const visibleYears = [...new Set(filtered.map((p) => p.year))].sort(
+    (a, b) => b - a
+  );
+
   return (
     <section id="publications" className="relative py-32 bg-white overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/3 rounded-full blur-[150px]" />
@@ -137,8 +156,71 @@ export default function Publications() {
           </div>
         </AnimateIn>
 
-        <div className="mt-16">
-          {years.map((year, yi) => (
+        {/* Search + filter */}
+        <AnimateIn delay={0.1}>
+          <div className="mt-10 space-y-4">
+            <div className="relative">
+              <Search
+                size={15}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-light"
+              />
+              <input
+                type="text"
+                placeholder="Search by title, author, or journal…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full rounded-xl border border-border bg-surface py-2.5 pl-9 pr-9 text-sm text-text placeholder:text-text-light focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/50 transition-all"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-light hover:text-text transition-colors"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setActiveYear(null)}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-all ${
+                  activeYear === null
+                    ? "bg-accent text-white shadow-sm"
+                    : "bg-surface text-text-muted hover:text-accent border border-border"
+                }`}
+              >
+                All years
+              </button>
+              {ALL_YEARS.map((yr) => (
+                <button
+                  key={yr}
+                  onClick={() => setActiveYear(activeYear === yr ? null : yr)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium transition-all ${
+                    activeYear === yr
+                      ? "bg-accent text-white shadow-sm"
+                      : "bg-surface text-text-muted hover:text-accent border border-border"
+                  }`}
+                >
+                  {yr}
+                </button>
+              ))}
+            </div>
+
+            {filtered.length === 0 ? (
+              <p className="py-8 text-center text-sm text-text-light">
+                No publications match your search.
+              </p>
+            ) : (
+              <p className="text-xs text-text-light">
+                {filtered.length} publication{filtered.length !== 1 ? "s" : ""}
+              </p>
+            )}
+          </div>
+        </AnimateIn>
+
+        <div className="mt-6">
+          {visibleYears.map((year, yi) => (
             <AnimateIn key={year} delay={0.05 * yi}>
               <div className={yi > 0 ? "mt-8" : ""}>
                 <div className="flex items-center gap-3 mb-3">
@@ -147,7 +229,7 @@ export default function Publications() {
                 </div>
 
                 <div className="divide-y divide-border rounded-2xl border border-border bg-white overflow-hidden">
-                  {publications
+                  {filtered
                     .filter((p) => p.year === year)
                     .map((pub) => (
                       <div
