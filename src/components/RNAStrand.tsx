@@ -29,6 +29,7 @@ function StrandTrack({
   const count = sequence.length;
   const totalWidth = count * SPACING;
   const doubled = [...sequence, ...sequence];
+  const round2 = (n: number) => Math.round(n * 100) / 100;
 
   return (
     <motion.div
@@ -40,10 +41,11 @@ function StrandTrack({
       <svg width={totalWidth * 2} height={70} fill="none">
         {doubled.map((base, i) => {
           const x = i * SPACING + SPACING / 2;
-          const cy = yCenter + Math.sin((i / count) * Math.PI * 4) * amplitude;
+          const cy = round2(yCenter + Math.sin((i / count) * Math.PI * 4) * amplitude);
           const prevX = (i - 1) * SPACING + SPACING / 2;
-          const prevCy =
-            yCenter + Math.sin(((i - 1) / count) * Math.PI * 4) * amplitude;
+          const prevCy = round2(
+            yCenter + Math.sin(((i - 1) / count) * Math.PI * 4) * amplitude
+          );
 
           return (
             <g key={i}>
