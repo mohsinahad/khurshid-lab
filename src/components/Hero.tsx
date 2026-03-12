@@ -2,6 +2,7 @@
 
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
+import RNAStrand from "./RNAStrand";
 
 function FloatingCell({ delay, x, y, size }: { delay: number; x: string; y: string; size: number }) {
   return (
@@ -59,6 +60,9 @@ export default function Hero() {
 
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-pattern opacity-40" />
+
+      {/* RNA strand animations */}
+      <RNAStrand />
 
       {/* Floating cells */}
       <FloatingCell delay={0} x="10%" y="20%" size={60} />
