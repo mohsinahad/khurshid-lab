@@ -138,7 +138,7 @@ export default function About() {
   const handleClose = useCallback(() => setActiveExpertise(null), []);
 
   return (
-    <section id="about" className="relative py-32 bg-white overflow-hidden">
+    <section id="about" className="relative py-16 bg-white overflow-hidden">
       <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-[100px]" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal/5 rounded-full blur-[100px]" />
 

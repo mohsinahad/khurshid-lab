@@ -1,6 +1,9 @@
 "use client";
 
-import { Newspaper } from "lucide-react";
+import { Newspaper, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import AnimateIn from "./AnimateIn";
 
 interface NewsItem {
@@ -9,6 +12,7 @@ interface NewsItem {
   title: string;
   description: string;
   link?: string;
+  image?: string;
 }
 
 const CATEGORY_COLORS: Record<NewsItem["category"], string> = {
@@ -20,56 +24,32 @@ const CATEGORY_COLORS: Record<NewsItem["category"], string> = {
 
 const news: NewsItem[] = [
   {
-    date: "December 2024",
-    category: "Publication",
-    title:
-      "New paper published in Molecular Therapy Oncology on splice-switching in osteosarcoma",
-    description:
-      "Our study employing SSOs and AAVrh74.U7 snRNA to target insulin receptor splicing and cancer hallmarks in osteosarcoma is now available online.",
-    link: "https://www.cell.com/molecular-therapy-family/oncology/fulltext/S2950-3299(24)00150-4",
-  },
-  {
-    date: "February 2024",
-    category: "Publication",
-    title:
-      "Preprint: IL-6 blockade decreases MDM2 oncogenicity via alternative splicing in liposarcoma",
-    description:
-      "New collaborative work showing how blocking IL-6 signaling alters MDM2 splicing in dedifferentiated liposarcoma, posted to bioRxiv.",
-    link: "https://www.biorxiv.org/content/10.1101/2024.02.21.581397v1",
-  },
-  {
-    date: "Early 2024",
+    date: "January 2026",
     category: "Lab Update",
     title: "Olivia Petrick joins the Khurshid Lab",
     description:
-      "We welcome Olivia Petrick as a Research Associate. Olivia brings expertise in cancer genetics and protein interaction pathways including Hippo signaling.",
+      "We welcome Olivia Petrick as a Research Associate. Olivia brings expertise in cancer genetics, protein interactions, and Hippo signaling.",
+    image: "/images/olivia.png",
   },
   {
-    date: "2024",
-    category: "Publication",
-    title:
-      "Oncogenic functions of MDM2-ALT2 isoform in retroperitoneal liposarcoma published",
+    date: "March 2026",
+    category: "Conference",
+    title: "Dr. Khurshid presents at COG Liver Tumor Committee Biology Meeting",
     description:
-      "Collaborative study characterizing the MDM2-ALT2 alternatively spliced isoform and its role in liposarcoma oncogenesis published in Int. J. Mol. Sci.",
-    link: "https://www.mdpi.com/1422-0067/25/24/13516",
+      "Dr. Safiya Khurshid presented her research at the Children's Oncology Group (COG) Liver Tumor Committee monthly biology meeting, sharing the lab's work on alternative splicing in pediatric cancers.",
+    image: "/images/safiya-khurshid-headshot.jpeg",
   },
   {
-    date: "2022",
-    category: "Publication",
-    title:
-      "Splice-switching of insulin receptor pre-mRNA published in NPJ Precision Oncology",
+    date: "March 2026",
+    category: "Award",
+    title: "Moin Talukder accepted into graduate school",
     description:
-      "Our work demonstrating that redirecting insulin receptor splicing alleviates tumorigenic hallmarks in rhabdomyosarcoma is published.",
-    link: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8752779/",
-  },
-  {
-    date: "Ongoing",
-    category: "Lab Update",
-    title: "Recruiting trainees for RNA splicing & pediatric cancer projects",
-    description:
-      "The Khurshid Lab at Sanford Research is actively looking for motivated postdoctoral fellows, graduate students, and undergraduates. See Open Positions below.",
+      "Congratulations to Moin on his graduate school acceptance! His contributions to RNA biology and cancer research have been invaluable to the lab.",
+    image: "/images/moin-talukder-headshot.jpg",
   },
 ];
+
+const INTERVAL = 10000;
 
 function CategoryBadge({ category }: { category: NewsItem["category"] }) {
   return (
@@ -82,56 +62,141 @@ function CategoryBadge({ category }: { category: NewsItem["category"] }) {
 }
 
 export default function News() {
-  return (
-    <section id="news" className="relative py-32 bg-white overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[400px] bg-teal/5 rounded-full blur-[120px]" />
+  const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [paused, setPaused] = useState(false);
 
-      <div className="relative mx-auto max-w-5xl px-6 lg:px-8">
+  const goTo = useCallback((index: number, dir: number) => {
+    setDirection(dir);
+    setActive(index);
+  }, []);
+
+  const next = useCallback(() => {
+    goTo((active + 1) % news.length, 1);
+  }, [active, goTo]);
+
+  const prev = useCallback(() => {
+    goTo((active - 1 + news.length) % news.length, -1);
+  }, [active, goTo]);
+
+  useEffect(() => {
+    if (paused || news.length <= 1) return;
+    const timer = setInterval(() => {
+      setDirection(1);
+      setActive((i) => (i + 1) % news.length);
+    }, INTERVAL);
+    return () => clearInterval(timer);
+  }, [paused]);
+
+  if (news.length === 0) return null;
+
+  const item = news[active];
+
+  return (
+    <section id="news" className="relative py-16 bg-white overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-teal/5 rounded-full blur-[120px]" />
+
+      <div className="relative mx-auto max-w-2xl px-6 lg:px-8">
         <AnimateIn>
           <div className="text-center">
             <p className="inline-flex items-center gap-2 rounded-full bg-accent/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent">
               <Newspaper size={12} />
               News & Updates
             </p>
-            <h2 className="mt-6 text-4xl font-bold tracking-tight text-primary sm:text-5xl">
-              Latest from the{" "}
-              <span className="gradient-text">Lab</span>
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+              Latest from the <span className="gradient-text">Lab</span>
             </h2>
           </div>
         </AnimateIn>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {news.map((item, i) => (
-            <AnimateIn key={item.title} delay={0.07 * i}>
-              <div className="group flex h-full flex-col rounded-2xl border border-border bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-                <div className="flex items-center justify-between gap-2">
-                  <CategoryBadge category={item.category} />
-                  <span className="text-[11px] text-text-light shrink-0">
-                    {item.date}
-                  </span>
+        <div
+          className="relative mt-10 overflow-hidden"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={active}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 80 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction * -80 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-5 rounded-2xl border border-border bg-white p-5 shadow-sm"
+            >
+              {item.image && (
+                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-surface">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover object-top"
+                  />
                 </div>
-
-                <h3 className="mt-3 text-sm font-semibold leading-snug text-primary group-hover:text-accent transition-colors">
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <CategoryBadge category={item.category} />
+                  <span className="text-[11px] text-text-light">{item.date}</span>
+                </div>
+                <h3 className="mt-1.5 text-sm font-semibold leading-snug text-primary">
                   {item.title}
                 </h3>
-
-                <p className="mt-2 flex-1 text-xs text-text-muted leading-relaxed">
+                <p className="mt-1 text-xs text-text-muted leading-relaxed line-clamp-2">
                   {item.description}
                 </p>
-
                 {item.link && (
                   <a
                     href={item.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 text-xs font-medium text-accent hover:underline"
+                    className="mt-2 inline-block text-xs font-medium text-accent hover:underline"
                   >
                     Read more →
                   </a>
                 )}
               </div>
-            </AnimateIn>
-          ))}
+            </motion.div>
+          </AnimatePresence>
+
+          {news.length > 1 && (
+            <div className="mt-5 flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                {news.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goTo(i, i > active ? 1 : -1)}
+                    className="relative h-1.5 rounded-full bg-border overflow-hidden transition-all"
+                    style={{ width: i === active ? 24 : 6 }}
+                  >
+                    {i === active && (
+                      <motion.div
+                        className="absolute inset-y-0 left-0 rounded-full bg-accent"
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: INTERVAL / 1000, ease: "linear" }}
+                        key={`progress-${active}`}
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prev}
+                  className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-text-muted transition hover:border-accent hover:text-accent"
+                >
+                  <ChevronLeft size={14} />
+                </button>
+                <button
+                  onClick={next}
+                  className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-text-muted transition hover:border-accent hover:text-accent"
+                >
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

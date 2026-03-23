@@ -29,7 +29,7 @@ const contactCards = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="relative py-32 bg-white overflow-hidden">
+    <section id="contact" className="relative py-16 bg-white overflow-hidden">
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-teal/5 rounded-full blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">

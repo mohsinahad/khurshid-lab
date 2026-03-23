@@ -41,7 +41,7 @@ const researchAreas = [
 
 export default function Research() {
   return (
-    <section id="research" className="relative py-32 bg-surface overflow-hidden">
+    <section id="research" className="relative py-16 bg-surface overflow-hidden">
       <div className="absolute inset-0 grid-pattern" />
 
       {/* Decorative molecule */}

@@ -139,7 +139,7 @@ export default function Publications() {
   );
 
   return (
-    <section id="publications" className="relative py-32 bg-white overflow-hidden">
+    <section id="publications" className="relative py-16 bg-white overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/3 rounded-full blur-[150px]" />
 
       <div className="relative mx-auto max-w-4xl px-6 lg:px-8">
