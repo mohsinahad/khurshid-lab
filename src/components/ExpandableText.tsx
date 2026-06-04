@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 interface ExpandableTextProps {
@@ -20,19 +20,15 @@ export default function ExpandableText({
   return (
     <div>
       {preview}
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden"
-          >
-            {full}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.div
+        initial={false}
+        animate={{ height: expanded ? "auto" : 0, opacity: expanded ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="overflow-hidden"
+        aria-hidden={!expanded}
+      >
+        {full}
+      </motion.div>
       <button
         onClick={() => setExpanded(!expanded)}
         className={`mt-4 inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:opacity-80 ${buttonClass}`}

@@ -109,8 +109,21 @@ export default function News() {
           </div>
         </AnimateIn>
 
+        {/* Full list for crawlers and assistive tech — visually hidden, carousel below shows one at a time */}
+        <ul className="sr-only">
+          {news.map((n) => (
+            <li key={`${n.date}-${n.title}`}>
+              <span>{n.category}</span> &mdash; <span>{n.date}</span>
+              <h3>{n.title}</h3>
+              <p>{n.description}</p>
+              {n.link && <a href={n.link}>Read more</a>}
+            </li>
+          ))}
+        </ul>
+
         <div
           className="relative mt-10 overflow-hidden"
+          aria-hidden="true"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >

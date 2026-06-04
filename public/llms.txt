@@ -1,0 +1,24 @@
+# Khurshid Lab
+
+> The Khurshid Lab at Sanford Research (Sioux Falls, SD) is a cancer biology lab led by Principal Investigator Dr. Safiya Khurshid. The lab studies dysregulated alternative RNA splicing in cancer — how aberrant isoforms drive tumor progression and therapy resistance — with a focus on pediatric cancer, RNA-binding proteins, and the MDM2/p53 pathway, using long-read sequencing to characterize tumor-specific isoforms and identify targeted therapies.
+
+The website is a single page (https://www.khurshidlab.com) organized into the sections below.
+
+## Sections
+
+- [About](https://www.khurshidlab.com/#about): Dr. Safiya Khurshid's background and the lab's mission, philosophy, and core expertise (cancer genetics, tumor microenvironment, RNA biology, alternative splicing).
+- [Research](https://www.khurshidlab.com/#research): Research focus on alternative splicing dysregulation in cancer and the lab's experimental approaches.
+- [Publications](https://www.khurshidlab.com/#publications): Peer-reviewed publications from the lab, with search and filtering.
+- [News](https://www.khurshidlab.com/#news): Latest lab news, awards, conference talks, and personnel updates.
+- [Team](https://www.khurshidlab.com/#team): Current lab members and their roles.
+- [Positions](https://www.khurshidlab.com/#positions): Open positions and how to inquire about joining the lab.
+- [Contact](https://www.khurshidlab.com/#contact): Contact information for the lab.
+
+## Topics
+
+- Alternative RNA splicing in cancer
+- Cancer biology and pediatric cancer
+- RNA-binding proteins
+- MDM2 and the p53 pathway
+- Long-read RNA sequencing and isoform discovery
+- Tumor progression and therapy resistance
