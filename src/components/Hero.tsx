@@ -1,8 +1,11 @@
 "use client";
 
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import RNAStrand from "./RNAStrand";
+import { news } from "./News";
+
+const latest = news[0];
 
 function FloatingCell({ delay, x, y, size }: { delay: number; x: string; y: string; size: number }) {
   return (
@@ -112,11 +115,34 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm text-white/60 backdrop-blur-sm"
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm text-white/60 backdrop-blur-sm"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-teal animate-pulse" />
           Sanford Research &middot; Sioux Falls, SD
         </motion.div>
+
+        {latest && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mt-3 mb-8 flex justify-center"
+          >
+            <a
+              href="#news"
+              className="group inline-flex max-w-full items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1 pl-1 pr-4 text-xs text-white/60 backdrop-blur-sm transition-colors hover:border-white/20 hover:text-white"
+            >
+              <span className="shrink-0 rounded-full bg-gradient-to-r from-accent to-teal px-2.5 py-0.5 text-[11px] font-semibold text-white">
+                New
+              </span>
+              <span className="truncate">{latest.title}</span>
+              <ArrowRight
+                size={12}
+                className="shrink-0 transition-transform group-hover:translate-x-0.5"
+              />
+            </a>
+          </motion.div>
+        )}
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -180,7 +206,7 @@ export default function Hero() {
           className="mx-auto mt-20 flex max-w-lg justify-center gap-12 sm:gap-16"
         >
           {[
-            { value: "10+", label: "Publications" },
+            { value: "10", label: "Publications" },
             { value: "3", label: "Research Areas" },
             { value: "12+", label: "Years Experience" },
           ].map((stat) => (

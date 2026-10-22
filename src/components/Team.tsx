@@ -44,12 +44,12 @@ const team: TeamMember[] = [
     photo: "/images/naira-rashid-lab.png",
   },
   {
-    name: "Olivia Petrick",
+    name: "Olivia Petrik",
     title: "Research Associate",
     education: "B.S.",
     interests:
       "I am interested in cancer and genetics, specifically protein interactions and gene pathways such as Hippo that lead to tissue overgrowth. Outside of the lab, I like to run, hike, read, and bake, along with spending time with my friends and family, usually at football, hockey, or baseball games.",
-    email: "olivia.petrick@sanfordhealth.org",
+    email: "olivia.petrik@sanfordhealth.org",
     photo: "/images/olivia.png",
   },
 ];
@@ -86,7 +86,7 @@ export default function Team() {
   const member = team[active];
 
   return (
-    <section id="team" className="relative py-16 bg-surface overflow-hidden">
+    <section id="team" className="relative py-16 bg-white overflow-hidden">
       <div className="absolute inset-0 grid-pattern" />
 
       <div className="relative mx-auto max-w-3xl px-6 lg:px-8">
@@ -171,12 +171,14 @@ export default function Team() {
           {/* Navigation arrows */}
           <button
             onClick={prev}
+            aria-label="Previous team member"
             className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white shadow-md transition-all hover:bg-accent/5 hover:border-accent/20 hover:text-accent"
           >
             <ChevronLeft size={18} />
           </button>
           <button
             onClick={next}
+            aria-label="Next team member"
             className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white shadow-md transition-all hover:bg-accent/5 hover:border-accent/20 hover:text-accent"
           >
             <ChevronRight size={18} />
@@ -188,6 +190,8 @@ export default function Team() {
               <button
                 key={i}
                 onClick={() => goTo(i, i > active ? 1 : -1)}
+                aria-label={`Show ${team[i].name}`}
+                aria-current={i === active ? "true" : undefined}
                 className="relative h-2 rounded-full bg-border transition-all overflow-hidden"
                 style={{ width: i === active ? 32 : 8 }}
               >

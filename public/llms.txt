@@ -7,9 +7,11 @@ The website is a single page (https://www.khurshidlab.com) organized into the se
 ## Sections
 
 - [About](https://www.khurshidlab.com/#about): Dr. Safiya Khurshid's background and the lab's mission, philosophy, and core expertise (cancer genetics, tumor microenvironment, RNA biology, alternative splicing).
-- [Research](https://www.khurshidlab.com/#research): Research focus on alternative splicing dysregulation in cancer and the lab's experimental approaches.
-- [Publications](https://www.khurshidlab.com/#publications): Peer-reviewed publications from the lab, with search and filtering.
 - [News](https://www.khurshidlab.com/#news): Latest lab news, awards, conference talks, and personnel updates.
+- [Research](https://www.khurshidlab.com/#research): Research focus on alternative splicing dysregulation in cancer and the lab's experimental approaches.
+- [Techniques](https://www.khurshidlab.com/#techniques): Sequencing, RNA and splicing biology, and cell and disease models used in the lab.
+- [AI Research](https://www.khurshidlab.com/#ai-research): How the lab uses AI in research, including an open-source liver-cancer splicing study built with Claude Science.
+- [Publications](https://www.khurshidlab.com/#publications): Peer-reviewed publications from the lab, with search and filtering.
 - [Team](https://www.khurshidlab.com/#team): Current lab members and their roles.
 - [Positions](https://www.khurshidlab.com/#positions): Open positions and how to inquire about joining the lab.
 - [Contact](https://www.khurshidlab.com/#contact): Contact information for the lab.

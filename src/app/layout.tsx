@@ -55,7 +55,7 @@ export const metadata: Metadata = {
       "The Khurshid Lab at Sanford Research investigates dysregulated alternative splicing in cancer, contributing to tumor progression and therapy resistance.",
     images: [
       {
-        url: "/images/khurshid-lab-team.png",
+        url: "/images/og-lab-team.jpg",
         width: 1200,
         height: 630,
         alt: "Khurshid Lab — Cancer Research & RNA Biology at Sanford Research",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: "Khurshid Lab | Cancer Research & RNA Biology",
     description:
       "The Khurshid Lab at Sanford Research investigates dysregulated alternative splicing in cancer, contributing to tumor progression and therapy resistance.",
-    images: ["/images/khurshid-lab-team.png"],
+    images: ["/images/og-lab-team.jpg"],
   },
 };
 

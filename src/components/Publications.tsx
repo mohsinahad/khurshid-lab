@@ -119,6 +119,16 @@ const ALL_YEARS = [...new Set(publications.map((p) => p.year))].sort(
   (a, b) => b - a
 );
 
+const scholarLinks: { label: string; href: string | null }[] = [
+  {
+    label: "PubMed",
+    href: "https://pubmed.ncbi.nlm.nih.gov/?term=Khurshid+Safiya",
+  },
+  // TODO: add real profile IDs to enable these
+  { label: "ORCID", href: null },
+  { label: "Google Scholar", href: null },
+];
+
 export default function Publications() {
   const [query, setQuery] = useState("");
   const [activeYear, setActiveYear] = useState<number | null>(null);
@@ -139,7 +149,7 @@ export default function Publications() {
   );
 
   return (
-    <section id="publications" className="relative py-16 bg-white overflow-hidden">
+    <section id="publications" className="relative py-16 bg-surface overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/3 rounded-full blur-[150px]" />
 
       <div className="relative mx-auto max-w-4xl px-6 lg:px-8">
@@ -153,6 +163,23 @@ export default function Publications() {
               Selected{" "}
               <span className="gradient-text">Publications</span>
             </h2>
+
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+              {scholarLinks
+                .filter((l): l is { label: string; href: string } => !!l.href)
+                .map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white px-3.5 py-1.5 text-xs font-medium text-text-muted transition-all hover:text-accent hover:border-accent/30"
+                  >
+                    {link.label}
+                    <ExternalLink size={11} />
+                  </a>
+                ))}
+            </div>
           </div>
         </AnimateIn>
 

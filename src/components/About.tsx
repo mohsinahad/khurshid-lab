@@ -225,10 +225,10 @@ export default function About() {
             <AnimateIn delay={0.15} direction="right">
               <div className="relative overflow-hidden rounded-3xl shadow-lg">
                 <Image
-                  src="/images/khurshid-lab-team.png"
-                  alt="Khurshid Lab Team"
-                  width={700}
-                  height={467}
+                  src="/images/lab-team-2026.jpg"
+                  alt="Khurshid Lab team in the lab at Sanford Research"
+                  width={1800}
+                  height={1200}
                   className="w-full object-cover"
                 />
               </div>

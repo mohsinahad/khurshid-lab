@@ -1,9 +1,8 @@
 "use client";
 
-import { Newspaper, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { Newspaper, ArrowUpRight, ChevronDown } from "lucide-react";
+import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import AnimateIn from "./AnimateIn";
 
 interface NewsItem {
@@ -22,14 +21,32 @@ const CATEGORY_COLORS: Record<NewsItem["category"], string> = {
   Conference: "bg-violet-50 text-violet-600",
 };
 
-const news: NewsItem[] = [
+export const news: NewsItem[] = [
   {
-    date: "January 2026",
-    category: "Lab Update",
-    title: "Olivia Petrick joins the Khurshid Lab",
+    date: "October 2026",
+    category: "Award",
+    title:
+      "Dr. Khurshid featured in AACR Pediatric Cancer Working Group spotlight",
     description:
-      "We welcome Olivia Petrick as a Research Associate. Olivia brings expertise in cancer genetics, protein interactions, and Hippo signaling.",
-    image: "/images/olivia.png",
+      "The AACR Pediatric Cancer Working Group profiled Dr. Safiya Khurshid in its Across the Map researcher spotlight, highlighting the lab's work on how metabolic stress in the tumor microenvironment reshapes alternative splicing in pediatric cancer.",
+    link: "https://www.aacr.org/professionals/membership/scientific-working-groups/pediatric-cancer-working-group/aacr-pcwg-across-the-map-working-groups-aacr/acrossthemap-safiyakhurshid/",
+    image: "/images/safiya-khurshid-headshot.jpeg",
+  },
+  {
+    date: "September 2026",
+    category: "Conference",
+    title: "Dr. Khurshid speaks on Biomed Computation and AI panel at USD",
+    description:
+      "Dr. Safiya Khurshid was a panelist on Biomed Computation and AI at the 2nd Annual SDBCC Symposium at the University of South Dakota, sharing how a wet-lab scientist can run computational studies directly with AI.",
+    image: "/images/safiya-khurshid-headshot.jpeg",
+  },
+  {
+    date: "July 2026",
+    category: "Lab Update",
+    title: "Liver-cancer splicing study built with Claude Science",
+    description:
+      "Dr. Khurshid released an open-source study linking alternative splicing to protein levels and patient survival in liver cancer, built with Anthropic's Claude Science on the Researcher Track.",
+    link: "https://github.com/mohsinahad/liver-cancer-splicing-survival",
   },
   {
     date: "March 2026",
@@ -47,9 +64,17 @@ const news: NewsItem[] = [
       "Congratulations to Moin on his graduate school acceptance! His contributions to RNA biology and cancer research have been invaluable to the lab.",
     image: "/images/moin-talukder-headshot.jpg",
   },
+  {
+    date: "January 2026",
+    category: "Lab Update",
+    title: "Olivia Petrik joins the Khurshid Lab",
+    description:
+      "We welcome Olivia Petrik as a Research Associate. Olivia brings expertise in cancer genetics, protein interactions, and Hippo signaling.",
+    image: "/images/olivia.png",
+  },
 ];
 
-const INTERVAL = 10000;
+const GRID_COUNT = 3;
 
 function CategoryBadge({ category }: { category: NewsItem["category"] }) {
   return (
@@ -61,42 +86,92 @@ function CategoryBadge({ category }: { category: NewsItem["category"] }) {
   );
 }
 
+function FeaturedCard({ item }: { item: NewsItem }) {
+  return (
+    <article className="relative flex flex-col gap-6 overflow-hidden rounded-3xl border border-border bg-white p-6 shadow-md sm:flex-row sm:items-center sm:p-8">
+      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent to-teal" />
+      {item.image && (
+        <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-2xl bg-surface">
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            className="object-cover object-top"
+          />
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-block rounded-full bg-gradient-to-r from-accent to-teal px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-white">
+            Latest
+          </span>
+          <CategoryBadge category={item.category} />
+          <span className="text-xs text-text-light">{item.date}</span>
+        </div>
+        <h3 className="mt-3 text-xl font-bold leading-snug text-primary sm:text-2xl">
+          {item.title}
+        </h3>
+        <p className="mt-3 text-sm text-text-muted leading-relaxed">
+          {item.description}
+        </p>
+        {item.link && (
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+          >
+            Read more
+            <ArrowUpRight size={14} />
+          </a>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function NewsCard({ item }: { item: NewsItem }) {
+  return (
+    <article className="flex h-full flex-col rounded-2xl border border-border bg-white p-5 shadow-sm transition hover:shadow-md">
+      <div className="flex items-center gap-2">
+        <CategoryBadge category={item.category} />
+        <span className="text-[11px] text-text-light">{item.date}</span>
+      </div>
+      <h3 className="mt-3 text-sm font-semibold leading-snug text-primary">
+        {item.title}
+      </h3>
+      <p className="mt-2 text-xs text-text-muted leading-relaxed line-clamp-4">
+        {item.description}
+      </p>
+      {item.link && (
+        <a
+          href={item.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-auto inline-flex self-start items-center gap-1 pt-3 text-xs font-medium text-accent hover:underline"
+        >
+          Read more
+          <ArrowUpRight size={12} />
+        </a>
+      )}
+    </article>
+  );
+}
+
 export default function News() {
-  const [active, setActive] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [paused, setPaused] = useState(false);
-
-  const goTo = useCallback((index: number, dir: number) => {
-    setDirection(dir);
-    setActive(index);
-  }, []);
-
-  const next = useCallback(() => {
-    goTo((active + 1) % news.length, 1);
-  }, [active, goTo]);
-
-  const prev = useCallback(() => {
-    goTo((active - 1 + news.length) % news.length, -1);
-  }, [active, goTo]);
-
-  useEffect(() => {
-    if (paused || news.length <= 1) return;
-    const timer = setInterval(() => {
-      setDirection(1);
-      setActive((i) => (i + 1) % news.length);
-    }, INTERVAL);
-    return () => clearInterval(timer);
-  }, [paused]);
+  const [showAll, setShowAll] = useState(false);
 
   if (news.length === 0) return null;
 
-  const item = news[active];
+  const [latest, ...rest] = news;
+  const visible = showAll ? rest : rest.slice(0, GRID_COUNT);
+  const hiddenCount = rest.length - GRID_COUNT;
 
   return (
-    <section id="news" className="relative py-16 bg-white overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-teal/5 rounded-full blur-[120px]" />
+    <section id="news" className="relative py-20 bg-surface overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-teal/5 rounded-full blur-[120px]" />
 
-      <div className="relative mx-auto max-w-2xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-5xl px-6 lg:px-8">
         <AnimateIn>
           <div className="text-center">
             <p className="inline-flex items-center gap-2 rounded-full bg-accent/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-accent">
@@ -109,108 +184,38 @@ export default function News() {
           </div>
         </AnimateIn>
 
-        {/* Full list for crawlers and assistive tech — visually hidden, carousel below shows one at a time */}
-        <ul className="sr-only">
-          {news.map((n) => (
-            <li key={`${n.date}-${n.title}`}>
-              <span>{n.category}</span> &mdash; <span>{n.date}</span>
-              <h3>{n.title}</h3>
-              <p>{n.description}</p>
-              {n.link && <a href={n.link}>Read more</a>}
-            </li>
-          ))}
-        </ul>
+        <AnimateIn className="mt-10" delay={0.1}>
+          <FeaturedCard item={latest} />
+        </AnimateIn>
 
-        <div
-          className="relative mt-10 overflow-hidden"
-          aria-hidden="true"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-        >
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={active}
-              custom={direction}
-              initial={{ opacity: 0, x: direction * 80 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction * -80 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center gap-5 rounded-2xl border border-border bg-white p-5 shadow-sm"
+        {rest.length > 0 && (
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {visible.map((item, i) => (
+              <AnimateIn
+                key={`${item.date}-${item.title}`}
+                delay={0.05 * (i % GRID_COUNT)}
+              >
+                <NewsCard item={item} />
+              </AnimateIn>
+            ))}
+          </div>
+        )}
+
+        {hiddenCount > 0 && (
+          <div className="mt-8 text-center">
+            <button
+              onClick={() => setShowAll((v) => !v)}
+              aria-expanded={showAll}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white px-5 py-2 text-sm font-medium text-text-muted transition hover:border-accent hover:text-accent"
             >
-              {item.image && (
-                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-surface">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover object-top"
-                  />
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <CategoryBadge category={item.category} />
-                  <span className="text-[11px] text-text-light">{item.date}</span>
-                </div>
-                <h3 className="mt-1.5 text-sm font-semibold leading-snug text-primary">
-                  {item.title}
-                </h3>
-                <p className="mt-1 text-xs text-text-muted leading-relaxed line-clamp-2">
-                  {item.description}
-                </p>
-                {item.link && (
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-block text-xs font-medium text-accent hover:underline"
-                  >
-                    Read more →
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {news.length > 1 && (
-            <div className="mt-5 flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                {news.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => goTo(i, i > active ? 1 : -1)}
-                    className="relative h-1.5 rounded-full bg-border overflow-hidden transition-all"
-                    style={{ width: i === active ? 24 : 6 }}
-                  >
-                    {i === active && (
-                      <motion.div
-                        className="absolute inset-y-0 left-0 rounded-full bg-accent"
-                        initial={{ width: "0%" }}
-                        animate={{ width: "100%" }}
-                        transition={{ duration: INTERVAL / 1000, ease: "linear" }}
-                        key={`progress-${active}`}
-                      />
-                    )}
-                  </button>
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={prev}
-                  className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-text-muted transition hover:border-accent hover:text-accent"
-                >
-                  <ChevronLeft size={14} />
-                </button>
-                <button
-                  onClick={next}
-                  className="flex h-7 w-7 items-center justify-center rounded-full border border-border text-text-muted transition hover:border-accent hover:text-accent"
-                >
-                  <ChevronRight size={14} />
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+              {showAll ? "Show less" : `Show all news (${hiddenCount} more)`}
+              <ChevronDown
+                size={14}
+                className={`transition-transform ${showAll ? "rotate-180" : ""}`}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

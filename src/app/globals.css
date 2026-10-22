@@ -23,6 +23,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* keeps section headings clear of the fixed navbar (h-20) on anchor jumps */
+  scroll-padding-top: 5rem;
 }
 
 body {

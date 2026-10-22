@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Users, Mail } from "lucide-react";
 import AnimateIn from "./AnimateIn";
 
@@ -27,8 +28,21 @@ export default function Positions() {
           </div>
         </AnimateIn>
 
+        <AnimateIn delay={0.1}>
+          <div className="mt-12 overflow-hidden rounded-3xl shadow-lg">
+            <Image
+              src="/images/lab-team-2026-outdoor.jpg"
+              alt="Khurshid Lab members outside Sanford Research"
+              width={1800}
+              height={1200}
+              sizes="(min-width: 768px) 720px, 100vw"
+              className="w-full object-cover"
+            />
+          </div>
+        </AnimateIn>
+
         <AnimateIn delay={0.15}>
-          <div className="mt-12 rounded-2xl border border-border bg-white p-8 text-center shadow-sm">
+          <div className="mt-6 rounded-2xl border border-border bg-white p-8 text-center shadow-sm">
             <p className="text-sm text-text-muted">
               There are no open positions at this time. We welcome speculative
               applications from motivated candidates at any stage.

@@ -2,6 +2,8 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Research from "@/components/Research";
+import Techniques from "@/components/Techniques";
+import Innovation from "@/components/Innovation";
 import Publications from "@/components/Publications";
 import News from "@/components/News";
 import Team from "@/components/Team";
@@ -15,9 +17,11 @@ export default function Home() {
       <Navbar />
       <Hero />
       <About />
-      <Research />
-      <Publications />
       <News />
+      <Research />
+      <Techniques />
+      <Innovation />
+      <Publications />
       <Team />
       <Positions />
       <Contact />
