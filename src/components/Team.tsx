@@ -9,9 +9,15 @@ import AnimateIn from "./AnimateIn";
 interface TeamMember {
   name: string;
   title: string;
-  education: string;
+  education?: string;
   interests: string;
-  email: string;
+  email?: string;
+  photo: string;
+}
+
+interface PastMember {
+  name: string;
+  title: string;
   photo: string;
 }
 
@@ -24,15 +30,6 @@ const team: TeamMember[] = [
       "Safiya is passionate about cancer biology and wants to figure out how tumor cells as well as the cells in the tumor microenvironment use alternative splicing to increase their tumorigenic potential. Outside of research Safiya enjoys spending time with her family, watching soccer with them (Manchester United fans at heart) and watching her family members (M, A and L) play soccer.",
     email: "safiya.khurshid@sanfordhealth.org",
     photo: "/images/safiya-khurshid-headshot.jpeg",
-  },
-  {
-    name: "Moin Talukder",
-    title: "Senior Research Specialist",
-    education: "Masters",
-    interests:
-      "Moin Talukder is a cancer biologist who contributes to cancer research in the Khurshid Lab. He is interested in understanding metastatic progression, with a particular emphasis on RNA biology. Beyond his scientific pursuits, Moin is a vibrant sports lover who enjoys cricket, badminton, and soccer. He balances his active lifestyle with relaxing activities like watching movies.",
-    email: "mdmoinuddin.talukder@sanfordhealth.org",
-    photo: "/images/moin-talukder-headshot.jpg",
   },
   {
     name: "Naira Rashid",
@@ -52,7 +49,67 @@ const team: TeamMember[] = [
     email: "olivia.petrik@sanfordhealth.org",
     photo: "/images/olivia.png",
   },
+  {
+    name: "Mayowa Abiodun",
+    title: "Graduate Student",
+    interests:
+      "Mayowa Abiodun is a graduate student in the Khurshid Lab. His research focuses on understanding how stress within the tumor microenvironment alters the localization and function of RNA-binding proteins (RBPs), and how these changes influence cancer cell behavior and phenotype. Outside the lab, Mayowa is a lifelong Arsenal FC fan and hopes to one day watch Arsenal play at the Emirates Stadium in London.",
+    photo: "/images/mayowa-abiodun.jpg",
+  },
 ];
+
+const summerStudents: PastMember[] = [
+  {
+    name: "Aiyana Gonzales",
+    title: "Summer Student",
+    photo: "/images/aiyana-gonzales.jpg",
+  },
+  {
+    name: "Richard",
+    title: "Summer Student",
+    photo: "/images/richard.jpg",
+  },
+];
+
+const formerMembers: PastMember[] = [
+  {
+    name: "Moin Talukder",
+    title: "Senior Research Specialist",
+    photo: "/images/moin-talukder-headshot.jpg",
+  },
+];
+
+function MemberGroup({
+  heading,
+  members,
+}: {
+  heading: string;
+  members: PastMember[];
+}) {
+  return (
+    <div>
+      <h3 className="text-center text-xs font-semibold uppercase tracking-widest text-text-light">
+        {heading}
+      </h3>
+      <div className="mt-6 flex flex-wrap justify-center gap-6">
+        {members.map((m) => (
+          <div key={m.name} className="w-36 text-center">
+            <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-2xl border border-border bg-surface">
+              <Image
+                src={m.photo}
+                alt={m.name}
+                fill
+                className="object-cover object-top"
+              />
+            </div>
+            <p className="mt-3 text-sm font-semibold text-primary">{m.name}</p>
+            <p className="mt-0.5 text-xs text-text-muted">{m.title}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const INTERVAL = 5000;
 
@@ -145,9 +202,11 @@ export default function Team() {
                     <p className="mt-1 text-sm font-medium text-accent">
                       {member.title}
                     </p>
-                    <p className="mt-0.5 text-xs text-text-light">
-                      {member.education}
-                    </p>
+                    {member.education && (
+                      <p className="mt-0.5 text-xs text-text-light">
+                        {member.education}
+                      </p>
+                    )}
                   </div>
 
                   <div className="mt-5 h-px w-full bg-border" />
@@ -156,13 +215,15 @@ export default function Team() {
                     {member.interests}
                   </p>
 
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-surface px-4 py-3 text-xs font-medium text-text-muted transition-all hover:bg-accent/5 hover:text-accent hover:border-accent/20"
-                  >
-                    <Mail size={14} />
-                    <span className="truncate">{member.email}</span>
-                  </a>
+                  {member.email && (
+                    <a
+                      href={`mailto:${member.email}`}
+                      className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-surface px-4 py-3 text-xs font-medium text-text-muted transition-all hover:bg-accent/5 hover:text-accent hover:border-accent/20"
+                    >
+                      <Mail size={14} />
+                      <span className="truncate">{member.email}</span>
+                    </a>
+                  )}
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -208,6 +269,11 @@ export default function Team() {
             ))}
           </div>
         </div>
+
+        <AnimateIn className="mt-16 space-y-12">
+          <MemberGroup heading="Summer Students" members={summerStudents} />
+          <MemberGroup heading="Former Members" members={formerMembers} />
+        </AnimateIn>
       </div>
     </section>
   );
