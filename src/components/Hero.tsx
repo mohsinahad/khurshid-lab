@@ -197,29 +197,6 @@ export default function Hero() {
             Get In Touch
           </a>
         </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="mx-auto mt-20 flex max-w-lg justify-center gap-12 sm:gap-16"
-        >
-          {[
-            { value: "10", label: "Publications" },
-            { value: "3", label: "Research Areas" },
-            { value: "12+", label: "Years Experience" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-2xl font-bold text-white sm:text-3xl">
-                {stat.value}
-              </p>
-              <p className="mt-1 text-xs text-white/40 sm:text-sm">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
       </div>
 
       {/* Scroll indicator */}
