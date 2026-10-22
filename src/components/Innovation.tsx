@@ -1,6 +1,6 @@
 "use client";
 
-import { Sparkles, Github, ArrowUpRight, Lock, FlaskConical } from "lucide-react";
+import { Sparkles, Github, ArrowUpRight } from "lucide-react";
 import AnimateIn from "./AnimateIn";
 
 const REPO_URL = "https://github.com/mohsinahad/liver-cancer-splicing-survival";
@@ -38,7 +38,7 @@ export default function Innovation() {
         </AnimateIn>
 
         <AnimateIn delay={0.15}>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
+          <div className="mt-12 max-w-2xl">
             <a
               href={REPO_URL}
               target="_blank"
@@ -64,25 +64,6 @@ export default function Innovation() {
                 Anthropic&apos;s Claude Science on the Researcher Track.
               </p>
             </a>
-
-            {/* Unpublished work — keep to topic level only, no genes, methods or results */}
-            <div className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-amber-400">
-                  <Lock size={11} />
-                  In progress · Unpublished
-                </span>
-                <FlaskConical size={18} className="text-white/30" />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-white">
-                Current Work
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/50">
-                Alternative splicing in pediatric liver cancer, how nutrient
-                stress rewires splicing, and RNA-targeted therapies. Details
-                will follow publication.
-              </p>
-            </div>
           </div>
         </AnimateIn>
       </div>
